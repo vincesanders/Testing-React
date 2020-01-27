@@ -1,4 +1,5 @@
 import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
 import StarWarsCharacters from '../components/StarWarsCharacters';
 import { render, wait, fireEvent } from '@testing-library/react';
 import { getData as mockGetNewData } from '../api';
@@ -9,7 +10,7 @@ jest.mock('../api');
 test('Renders the StarWarsCharacters component with character list and functioning next and previous buttons', async () => {
 
     const response = {
-        next: 'nextURL',
+        next: null,
         previous: 'previousURL',
         results: [
             {
@@ -26,13 +27,13 @@ test('Renders the StarWarsCharacters component with character list and functioni
     const nextButton = wrapper.getByText(/next/i);
     const previousButton = wrapper.getByText(/previous/i);
 
-
-
     fireEvent.click(nextButton);
     fireEvent.click(previousButton);
 
     await wait(() => {
         //make sure after the api call is made that a character with characterName appears on the page.
         expect(wrapper.getByText(/charactername/i)).toBeTruthy();
+        //Since there is no next url, the next button should be disabled.
+        expect(nextButton).toHaveAttribute('disabled');
     });
 });
