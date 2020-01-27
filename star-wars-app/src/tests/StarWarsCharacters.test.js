@@ -34,6 +34,12 @@ test('Renders the StarWarsCharacters component with character list and functioni
         //make sure after the api call is made that a character with characterName appears on the page.
         expect(wrapper.getByText(/charactername/i)).toBeTruthy();
         //Since there is no next url, the next button should be disabled.
-        expect(nextButton).toHaveAttribute('disabled');
+        expect(nextButton).toBeDisabled();
+        expect(previousButton).toBeEnabled();
+
+        mockGetNewData.mockResolvedValueOnce(response);
+
+        fireEvent.click(previousButton);
+        expect(mockGetNewData).toHaveBeenCalledWith(response.previous);
     });
 });
