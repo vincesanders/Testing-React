@@ -10,6 +10,8 @@ export default function StarWarsCharacters() {
   const [next, setNext] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacters] = useState([]);
+
+  //When the url is changed, this function is called.
   useEffect(() => {
     setIsLoading(true);
     const getCharacters = async () => {
